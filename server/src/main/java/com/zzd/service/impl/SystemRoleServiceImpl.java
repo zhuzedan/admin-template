@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemRole;
 import com.zzd.mapper.SystemRoleMapper;
-import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemRoleService;
+import com.zzd.vo.SystemRoleQueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,16 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemR
     private SystemRoleMapper systemRoleMapper;
 
     @Override
-    public ResponseResult selectPageRole(Long page, Long limit) {
-        IPage<SystemRole> systemRoleIPage = new Page<>(page,limit);
-        IPage<SystemRole> systemRoleIPage1 = systemRoleMapper.selectPage(systemRoleIPage, null);
-        return new ResponseResult(200,"success",systemRoleIPage1);
+    public IPage<SystemRole> selectPage(Page<SystemRole> pageParam, SystemRoleQueryVo systemRoleQueryVo) {
+        return systemRoleMapper.selectPage(pageParam,systemRoleQueryVo);
     }
 
+    // @Override
+    // public ResponseResult selectPageRole(Long page, Long limit) {
+    //     IPage<SystemRole> systemRoleIPage = new Page<>(page,limit);
+    //     IPage<SystemRole> systemRoleIPage1 = systemRoleMapper.selectPage(systemRoleIPage, null);
+    //     return new ResponseResult(200,"success",systemRoleIPage1);
+    // }
 
 }
 

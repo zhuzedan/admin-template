@@ -1,8 +1,10 @@
 package com.zzd.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzd.domain.SystemRole;
-import com.zzd.result.ResponseResult;
+import com.zzd.vo.SystemRoleQueryVo;
 
 
 /**
@@ -13,8 +15,8 @@ import com.zzd.result.ResponseResult;
  */
 public interface SystemRoleService extends IService<SystemRole> {
 
-    // ResponseResult selectPageRole(Long page, Long limit, SystemRole systemRole);
-    ResponseResult selectPageRole(Long page, Long limit);
+    IPage<SystemRole> selectPage(Page<SystemRole> pageParam, SystemRoleQueryVo systemRoleQueryVo);
+    // ResponseResult selectPageRole(Long page, Long limit);
 
 }
 

@@ -3,6 +3,9 @@ package com.zzd.domain;
 import java.util.Date;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("t_system_role")
 public class SystemRole  {
-    @TableId
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     //角色名称
@@ -34,6 +37,7 @@ public class SystemRole  {
     //更新时间
     private Date updateTime;
     //删除标记（0:可用 1:已删除）
+    @TableLogic
     private Integer isDeleted;
 
 }

@@ -1,8 +1,11 @@
 package com.zzd.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.domain.SystemRole;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemRoleService;
+import com.zzd.vo.SystemRoleQueryVo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +51,13 @@ public class SystemRoleController {
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Long limit
-            // @ApiParam(name = "roleQueryVo", value = "查询对象", required = false)
-            // SystemRole systemRole
+            @PathVariable Long limit,
+            @ApiParam(name = "sysRoleQueryVo", value = "查询对象",required = false)
+                    SystemRoleQueryVo systemRoleQueryVo
     ) {
-        // return systemRoleService.selectPageRole(page,limit,systemRole);
-        return systemRoleService.selectPageRole(page,limit);
+        Page<SystemRole> pageParam = new Page<>(page, limit);
+        IPage<SystemRole> pageModel = systemRoleService.selectPage(pageParam, systemRoleQueryVo);
+        return new ResponseResult(200,"查询成功",pageModel);
     }
     @ApiOperation(value = "新增角色")
     @PostMapping("/save")
@@ -72,10 +76,10 @@ public class SystemRoleController {
         return new  ResponseResult(200,"成功获取角色",role);
     }
     @ApiOperation(value = "修改角色")
-    @GetMapping("/update")
+    @PostMapping("/update")
     public ResponseResult updateById(@RequestBody SystemRole systemRole) {
         systemRoleService.updateById(systemRole);
-        return new  ResponseResult(200,"成功新增");
+        return new  ResponseResult(200,"成功修改");
     }
     @ApiOperation(value = "批量删除")
     @DeleteMapping("/batchRemove")
