@@ -92,6 +92,12 @@ public class SystemUserController {
         systemUserService.removeByIds(idList);
         return new  ResponseResult(200,"批量删除成功");
     }
+    @ApiOperation(value = "更新状态")
+    @GetMapping("updateStatus/{id}/{status}")
+    public ResponseResult updateStatus(@PathVariable Long id, @PathVariable Integer status) {
+        systemUserService.updateStatus(id, status);
+        return new ResponseResult(200,"更新成功");
+    }
 
 }
 

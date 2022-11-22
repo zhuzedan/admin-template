@@ -24,5 +24,7 @@ public interface SystemUserService extends IService<SystemUser> {
     ResponseResult logout();
 
     IPage<SystemUser> selectPage(Page<SystemUser> pageParam, SystemUserQueryVo systemUserQueryVo);
+
+    void updateStatus(Long id, Integer status);
 }
 

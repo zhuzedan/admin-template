@@ -55,6 +55,13 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         return systemUserMapper.selectUserPage(pageParam,systemUserQueryVo);
     }
 
+    @Override
+    public void updateStatus(Long id, Integer status) {
+        SystemUser systemUser = systemUserMapper.selectById(id);
+        systemUser.setStatus(status);
+        systemUserMapper.updateById(systemUser);
+    }
+
 
 }
 
