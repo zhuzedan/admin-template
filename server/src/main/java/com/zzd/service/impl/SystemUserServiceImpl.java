@@ -1,10 +1,17 @@
 package com.zzd.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zzd.domain.SystemRole;
 import com.zzd.domain.SystemUser;
+import com.zzd.mapper.SystemRoleMapper;
 import com.zzd.mapper.SystemUserMapper;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemUserService;
+import com.zzd.vo.SystemRoleQueryVo;
+import com.zzd.vo.SystemUserQueryVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,6 +25,8 @@ import java.util.Map;
  */
 @Service("systemUserService")
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements SystemUserService {
+    @Autowired
+    private SystemUserMapper systemUserMapper;
 
     @Override
     public ResponseResult login(SystemUser systemUser) {
@@ -40,5 +49,12 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     public ResponseResult logout() {
         return new ResponseResult(200,"退出成功");
     }
+
+    @Override
+    public IPage<SystemUser> selectPage(Page<SystemUser> pageParam, SystemUserQueryVo systemUserQueryVo) {
+        return systemUserMapper.selectUserPage(pageParam,systemUserQueryVo);
+    }
+
+
 }
 

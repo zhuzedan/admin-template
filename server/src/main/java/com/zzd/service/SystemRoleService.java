@@ -16,7 +16,6 @@ import com.zzd.vo.SystemRoleQueryVo;
 public interface SystemRoleService extends IService<SystemRole> {
 
     IPage<SystemRole> selectPage(Page<SystemRole> pageParam, SystemRoleQueryVo systemRoleQueryVo);
-    // ResponseResult selectPageRole(Long page, Long limit);
 
 }
 

@@ -1,8 +1,12 @@
 package com.zzd.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zzd.domain.SystemRole;
 import com.zzd.domain.SystemUser;
 import com.zzd.result.ResponseResult;
+import com.zzd.vo.SystemUserQueryVo;
 
 
 /**
@@ -18,5 +22,7 @@ public interface SystemUserService extends IService<SystemUser> {
     ResponseResult getInfo();
 
     ResponseResult logout();
+
+    IPage<SystemUser> selectPage(Page<SystemUser> pageParam, SystemUserQueryVo systemUserQueryVo);
 }
 
