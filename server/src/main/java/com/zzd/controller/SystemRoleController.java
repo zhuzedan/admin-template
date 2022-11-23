@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.domain.SystemRole;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemRoleService;
+import com.zzd.vo.AssginRoleVo;
 import com.zzd.vo.SystemRoleQueryVo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -86,6 +88,17 @@ public class SystemRoleController {
     public ResponseResult batchRemove(@RequestBody List<Long> idList) {
         systemRoleService.removeByIds(idList);
         return new  ResponseResult(200,"批量删除成功");
+    }
+    @ApiOperation(value = "根据用户获取角色数据")
+    @GetMapping("/toAssign/{userId}")
+    public ResponseResult toAssign(@PathVariable Long userId) {
+        return systemRoleService.getRolesByUserId(userId);
+    }
+
+    @ApiOperation(value = "根据用户分配角色")
+    @PostMapping("/doAssign")
+    public ResponseResult doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        return systemRoleService.doAssign(assginRoleVo);
     }
 
 }

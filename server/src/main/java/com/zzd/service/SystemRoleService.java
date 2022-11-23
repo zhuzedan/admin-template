@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzd.domain.SystemRole;
+import com.zzd.result.ResponseResult;
+import com.zzd.vo.AssginRoleVo;
 import com.zzd.vo.SystemRoleQueryVo;
+
+import java.util.Map;
 
 
 /**
@@ -16,6 +20,11 @@ import com.zzd.vo.SystemRoleQueryVo;
 public interface SystemRoleService extends IService<SystemRole> {
 
     IPage<SystemRole> selectPage(Page<SystemRole> pageParam, SystemRoleQueryVo systemRoleQueryVo);
+
+    //根据用户获取角色数据
+    ResponseResult getRolesByUserId(Long userId);
+
+    ResponseResult doAssign(AssginRoleVo assginRoleVo);
 
 }
 
