@@ -3,6 +3,7 @@ package com.zzd.controller;
 import com.zzd.domain.SystemMenu;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemMenuService;
+import com.zzd.vo.AssginMenuVo;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,10 +63,22 @@ public class SystemMenuController {
     }
 
     @ApiOperation(value = "删除菜单")
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseResult remove(@PathVariable Long id) {
-        systemMenuService.removeById(id);
+        systemMenuService.removeMenuById(id);
         return new ResponseResult(200,"success");
+    }
+
+    @ApiOperation(value = "根据角色获取菜单")
+    @GetMapping("/toAssign/{roleId}")
+    public ResponseResult toAssign(@PathVariable Long roleId) {
+        return systemMenuService.findSystemMenuByRoleId(roleId);
+    }
+
+    @ApiOperation(value = "给角色分配权限")
+    @PostMapping("/doAssign")
+    public ResponseResult doAssgin(@RequestBody AssginMenuVo assginMenuVo) {
+        return systemMenuService.doAssign(assginMenuVo);
     }
 
 }

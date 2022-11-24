@@ -3,6 +3,7 @@ package com.zzd.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzd.domain.SystemMenu;
 import com.zzd.result.ResponseResult;
+import com.zzd.vo.AssginMenuVo;
 
 
 /**
@@ -15,6 +16,10 @@ public interface SystemMenuService extends IService<SystemMenu> {
 
     ResponseResult findNodes();
 
-    boolean removeById(Long id);
+    void removeMenuById(Long id);
+
+    ResponseResult findSystemMenuByRoleId(Long roleId);
+
+    ResponseResult doAssign(AssginMenuVo assginMenuVo);
 }
 

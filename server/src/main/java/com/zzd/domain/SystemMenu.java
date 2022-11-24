@@ -1,17 +1,15 @@
 package com.zzd.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 /**
  * 菜单表(SystemMenu)表实体类
  *
@@ -24,7 +22,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("t_system_menu")
 public class SystemMenu  {
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     //所属上级
@@ -49,7 +47,7 @@ public class SystemMenu  {
     private Date createTime;
     //更新时间
     private Date updateTime;
-    //删除标记（0:可用 1:已删除）
+    @TableLogic
     private Integer isDeleted;
     // 下级列表
     @TableField(exist = false)
