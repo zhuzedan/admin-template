@@ -1,6 +1,8 @@
 package com.zzd.config;
 
 import com.zzd.filter.JwtAuthenticationTokenFilter;
+import com.zzd.handler.AccessDeniedHandlerImpl;
+import com.zzd.handler.AuthenticationEntryPointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,10 @@ public class SecurityConfig {
     }
     @Autowired
     JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    AuthenticationEntryPointImpl authenticationEntryPoint;
+    @Autowired
+    AccessDeniedHandlerImpl accessDeniedHandler;
     //放行登录接口
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,6 +53,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated();
         //把token校验过滤器添加到过滤器链中,放在其他过滤器之前
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        //允许跨域
+        http.cors();
         return http.build();
     }
     // -- swagger ui忽略
