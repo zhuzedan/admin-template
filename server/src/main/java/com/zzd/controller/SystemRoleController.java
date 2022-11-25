@@ -7,6 +7,7 @@ import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemRoleService;
 import com.zzd.vo.AssginRoleVo;
 import com.zzd.vo.SystemRoleQueryVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @author zzd
  * @since 2022-11-17 22:04:20
  */
+@Api(tags = "角色管理接口")
 @RestController
 @RequestMapping("/admin/system/systemRole")
 public class SystemRoleController {
