@@ -2,7 +2,9 @@ package com.zzd.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zzd.annotation.Log;
 import com.zzd.domain.SystemRole;
+import com.zzd.enums.BusinessType;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemRoleService;
 import com.zzd.vo.AssginRoleVo;
@@ -38,6 +40,7 @@ public class SystemRoleController {
         return new ResponseResult(200,"success",list);
     }
     //逻辑删除接口
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @ApiOperation("逻辑删除接口")
     @DeleteMapping("remove/{id}")
     public ResponseResult removeRole(@PathVariable Long id) {
@@ -49,6 +52,7 @@ public class SystemRoleController {
             return new ResponseResult(200,"失败");
         }
     }
+    @Log(title = "角色管理", businessType = BusinessType.OTHER)
     @ApiOperation("分页查询")
     @GetMapping("/{page}/{limit}")
     public ResponseResult findPageRole(
@@ -63,6 +67,7 @@ public class SystemRoleController {
         IPage<SystemRole> pageModel = systemRoleService.selectPage(pageParam, systemRoleQueryVo);
         return new ResponseResult(200,"查询成功",pageModel);
     }
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @ApiOperation(value = "新增角色")
     @PostMapping("/save")
     public ResponseResult save(@RequestBody SystemRole role) {
@@ -79,6 +84,7 @@ public class SystemRoleController {
         SystemRole role = systemRoleService.getById(id);
         return new  ResponseResult(200,"成功获取角色",role);
     }
+    @Log(title = "角色管理",businessType = BusinessType.UPDATE)
     @ApiOperation(value = "修改角色")
     @PostMapping("/update")
     public ResponseResult updateById(@RequestBody SystemRole systemRole) {
