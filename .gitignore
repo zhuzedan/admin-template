@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+/server/src/main/resources/rebel.xml
+/common/src/main/resources/rebel.xml
+/generator/src/main/resources/rebel.xml
+/log/src/main/resources/rebel.xml
+/model/src/main/resources/rebel.xml
+/security/src/main/resources/rebel.xml

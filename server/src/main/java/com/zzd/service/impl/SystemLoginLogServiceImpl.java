@@ -1,9 +1,13 @@
 package com.zzd.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemLoginLog;
+import com.zzd.domain.SystemOperLog;
 import com.zzd.mapper.SystemLoginLogMapper;
 import com.zzd.service.SystemLoginLogService;
+import com.zzd.vo.SystemLoginLogQueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
@@ -29,6 +33,13 @@ public class SystemLoginLogServiceImpl extends ServiceImpl<SystemLoginLogMapper,
             sysLoginLog.setMsg(message);
             sysLoginLog.setStatus(status);
             systemLoginLogMapper.insert(sysLoginLog);
+    }
+
+    @Override
+    public IPage<SystemLoginLog> selectPage(Page<SystemLoginLog> pageParam, SystemLoginLogQueryVo systemLoginLogQueryVo) {
+        //调用mapper方法实现分页条件查询
+        IPage<SystemLoginLog> systemLoginLogIPage = systemLoginLogMapper.selectPage(pageParam, systemLoginLogQueryVo);
+        return systemLoginLogIPage;
     }
 }
 

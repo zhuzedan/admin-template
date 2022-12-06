@@ -1,10 +1,14 @@
 package com.zzd.controller;
 
+
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zzd.domain.SystemLoginLog;
 import com.zzd.domain.SystemOperLog;
 import com.zzd.result.ResponseResult;
-import com.zzd.service.SystemOperLogService;
+import com.zzd.service.SystemLoginLogService;
+import com.zzd.vo.SystemLoginLogQueryVo;
 import com.zzd.vo.SystemOperLogQueryVo;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -14,18 +18,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * 操作日志记录(SystemOperLog)表控制层
+ * 系统访问记录(SystemLoginLog)表控制层
  *
  * @author zzd
- * @since 2022-11-28 13:27:32
+ * @since 2022-12-06 15:32:52
  */
-@Api(tags = "操作日志管理")
+@Api(tags = "登录日志管理")
 @RestController
-@RequestMapping("/admin/system/systemOperLog")
-public class SystemOperLogController {
+@RequestMapping("/admin/system/systemLoginLog")
+public class SystemLoginLogController {
 
     @Autowired
-    private SystemOperLogService systemOperLogService;
+    private SystemLoginLogService systemLoginLogService;
 
     @ApiOperation(value = "获取分页列表")
     @GetMapping("{page}/{limit}")
@@ -36,31 +40,30 @@ public class SystemOperLogController {
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit,
 
-            @ApiParam(name = "systemOperLogQueryVo", value = "查询对象", required = false)
-                    SystemOperLogQueryVo systemOperLogQueryVo) {
-        Page<SystemOperLog> pageParam = new Page<>(page, limit);
-        IPage<SystemOperLog> pageModel = systemOperLogService.selectPage(pageParam, systemOperLogQueryVo);
+            @ApiParam(name = "systemLoginLogQueryVo", value = "查询对象", required = false)
+                    SystemLoginLogQueryVo systemLoginLogQueryVo) {
+        Page<SystemLoginLog> pageParam = new Page<>(page, limit);
+        IPage<SystemLoginLog> pageModel = systemLoginLogService.selectPage(pageParam, systemLoginLogQueryVo);
         return new ResponseResult(200,"success",pageModel);
     }
-
     @ApiOperation(value = "查询所有记录")
     @GetMapping("/query")
     public ResponseResult findAll() {
-        List<SystemOperLog> list = systemOperLogService.list();
+        List<SystemLoginLog> list = systemLoginLogService.list();
         return new ResponseResult(200,"success",list);
     }
 
     @ApiOperation(value = "获取详情")
     @GetMapping("/read/{id}")
     public ResponseResult selectOne(@PathVariable Long id) {
-        SystemOperLog systemOperLog = systemOperLogService.getById(id);
-        return new  ResponseResult(200,"成功获取详情",systemOperLog);
+        SystemLoginLog systemLoginLog = systemLoginLogService.getById(id);
+        return new  ResponseResult(200,"成功获取详情",systemLoginLog);
     }
 
     @ApiOperation(value = "删除数据")
     @DeleteMapping("delete/{id}")
     public ResponseResult delete(@PathVariable Long id) {
-        boolean flag = systemOperLogService.removeById(id);
+        boolean flag = systemLoginLogService.removeById(id);
         if (flag) {
             return new ResponseResult(200,"删除成功");
         }
@@ -71,7 +74,7 @@ public class SystemOperLogController {
     @ApiOperation(value = "批量删除数据")
     @DeleteMapping("/batchRemove")
     public ResponseResult batchRemove(@RequestBody List<Long> idList) {
-        systemOperLogService.removeByIds(idList);
+        systemLoginLogService.removeByIds(idList);
         return new  ResponseResult(200,"批量删除成功");
     }
 }
