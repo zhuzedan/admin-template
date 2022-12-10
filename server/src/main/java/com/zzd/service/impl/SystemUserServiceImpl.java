@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.zzd.constants.SecurityConstants.TOKEN_PREFIX;
+
 /**
  * 用户表(SystemUser)表服务实现类
  *
@@ -54,6 +56,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         String jwt = JwtUtil.createJWT(userId);
         Map<String,String> map = new HashMap();
         map.put("token",jwt);
+        map.put("tokenHead",TOKEN_PREFIX);
         //存入redis
         redisCache.setCacheObject("zzdlogin:"+userId,loginUser);
         return ResponseResult.success("登录成功",map);
