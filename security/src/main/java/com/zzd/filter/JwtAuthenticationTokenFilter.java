@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static com.zzd.constants.SecurityConstants.HEADER_STRING;
+import static com.zzd.constants.SecurityConstants.TOKEN_PREFIX;
 
 /**
  * @author :zzd
@@ -34,7 +35,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //1获取token  header的token
-        String token = request.getHeader(HEADER_STRING);
+        String token = resolveToken(request);
         if (!StringUtils.hasText(token)) {
             //放行，让后面的过滤器执行
             filterChain.doFilter(request, response);
@@ -64,5 +65,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         //放行，让后面的过滤器执行
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 初步检测token
+     */
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(HEADER_STRING);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.replace(TOKEN_PREFIX,"");
+        }else {
+            System.out.println("token不合法"+bearerToken);
+        }
+        return null;
     }
 }

@@ -61,7 +61,6 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public ResponseResult getInfo() {
-        int  i = 1/0;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         SystemUser systemUser = loginUser.getSystemUser();
