@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.zzd.constants.SecurityConstants.HEADER_STRING;
+
 /**
  * @author :zzd
  * @date : 2022/11/6
@@ -32,7 +34,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //1获取token  header的token
-        String token = request.getHeader("token");
+        String token = request.getHeader(HEADER_STRING);
         if (!StringUtils.hasText(token)) {
             //放行，让后面的过滤器执行
             filterChain.doFilter(request, response);

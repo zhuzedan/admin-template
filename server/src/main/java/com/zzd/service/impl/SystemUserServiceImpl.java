@@ -56,16 +56,17 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         map.put("token",jwt);
         //存入redis
         redisCache.setCacheObject("zzdlogin:"+userId,loginUser);
-        return new ResponseResult(200,"登录成功",map);
+        return ResponseResult.success("登录成功",map);
     }
 
     @Override
     public ResponseResult getInfo() {
+        int  i = 1/0;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         SystemUser systemUser = loginUser.getSystemUser();
         systemUser.setPassword(null);
-        return new ResponseResult(200,"获取成功",systemUser);
+        return ResponseResult.success(systemUser);
     }
 
     @Override

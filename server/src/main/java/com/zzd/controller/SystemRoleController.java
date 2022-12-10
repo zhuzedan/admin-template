@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.annotation.Log;
 import com.zzd.domain.SystemRole;
 import com.zzd.enums.BusinessType;
+import com.zzd.exception.BusinessException;
 import com.zzd.result.ResponseResult;
+import com.zzd.result.ResultCodeEnum;
 import com.zzd.service.SystemRoleService;
 import com.zzd.vo.AssginRoleVo;
 import com.zzd.vo.SystemRoleQueryVo;
@@ -73,16 +75,21 @@ public class SystemRoleController {
     public ResponseResult save(@RequestBody SystemRole role) {
         boolean save = systemRoleService.save(role);
         if (save) {
-            return new ResponseResult(200,"成功新增");
+            return ResponseResult.success();
         }else {
-            return new ResponseResult(401,"新增失败");
+            return ResponseResult.error();
         }
     }
     @ApiOperation(value = "获取角色")
     @GetMapping("/get/{id}")
     public ResponseResult get(@PathVariable Long id) {
         SystemRole role = systemRoleService.getById(id);
-        return new  ResponseResult(200,"成功获取角色",role);
+        if (role != null) {
+            return ResponseResult.success(role);
+        }
+        else {
+            throw new BusinessException(ResultCodeEnum.PARAM_NOT_VALID.getCode(),ResultCodeEnum.PARAM_NOT_VALID.getMessage());
+        }
     }
     @Log(title = "角色管理",businessType = BusinessType.UPDATE)
     @ApiOperation(value = "修改角色")

@@ -12,18 +12,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
+    /**
+     * 全局异常处理
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseResult error(Exception e){
         e.printStackTrace();
-        return new ResponseResult(201,"出现异常");
+        return ResponseResult.error();
     }
 
-    // @ExceptionHandler(ArithmeticException.class)
-    // @ResponseBody
-    // public ResponseResult error(ArithmeticException e){
-    //     e.printStackTrace();
-    //     return new ResponseResult(201,"全局异常");
-    // }
+    /**
+     * 指定异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseBody
+    public ResponseResult error(BusinessException e){
+        e.printStackTrace();
+        return ResponseResult.error(e.getCode(),e.getMessage());
+    }
+
 }

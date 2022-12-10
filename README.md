@@ -26,5 +26,8 @@
 - `security` 为系统的security安全框架，是基于springsecurity的代码
 - `server` 为系统的核心代码模块，是项目入口模块，也是最终需要打包部署的模块
 
+### 使用说明
 
-
+1. 将根目录的`manage_sys.sql`数据库导入
+2. 安装redis  为了方便我直接用的windows版本，不用配置ip，都是用默认的，跑项目前先把redis服务打开就好
+3. 启动ServerStartApplication，数据库的默认账号\密码：admin\admin

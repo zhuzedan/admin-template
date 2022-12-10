@@ -50,7 +50,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         wrapper.eq("parent_id",id);
         Long count = baseMapper.selectCount(wrapper);
         if (count > 0) {
-            throw new GuiguException(ResultCodeEnum.ILLEGAL_REQUEST.getCode(),ResultCodeEnum.ILLEGAL_REQUEST.getMessage());
+            throw new GuiguException(ResultCodeEnum.ILLEGAL_REQUEST.getCode(), ResultCodeEnum.ILLEGAL_REQUEST.getMessage());
         }
         systemMenuMapper.deleteById(id);
     }
