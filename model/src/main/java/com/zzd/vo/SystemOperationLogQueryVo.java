@@ -3,7 +3,7 @@ package com.zzd.vo;
 import lombok.Data;
 
 @Data
-public class SystemOperLogQueryVo {
+public class SystemOperationLogQueryVo {
 
 	private String title;
 	private String operName;

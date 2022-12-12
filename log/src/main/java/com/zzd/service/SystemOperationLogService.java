@@ -3,8 +3,8 @@ package com.zzd.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zzd.domain.SystemOperLog;
-import com.zzd.vo.SystemOperLogQueryVo;
+import com.zzd.domain.SystemOperationLog;
+import com.zzd.vo.SystemOperationLogQueryVo;
 
 
 /**
@@ -13,12 +13,12 @@ import com.zzd.vo.SystemOperLogQueryVo;
  * @author zzd
  * @since 2022-11-28 13:09:36
  */
-public interface SystemOperLogService extends IService<SystemOperLog> {
+public interface SystemOperationLogService extends IService<SystemOperationLog> {
 
-    void saveSysLog(SystemOperLog sysOperLog);
+    void saveSysLog(SystemOperationLog sysOperLog);
 
     //操作日志分页查询
-    IPage<SystemOperLog> selectPage(Page<SystemOperLog> pageParam, SystemOperLogQueryVo sysOperLogQueryVo);
+    IPage<SystemOperationLog> selectPage(Page<SystemOperationLog> pageParam, SystemOperationLogQueryVo sysOperLogQueryVo);
 
 }
 

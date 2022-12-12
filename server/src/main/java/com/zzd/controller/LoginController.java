@@ -1,6 +1,8 @@
 package com.zzd.controller;
 
+import com.zzd.annotation.Log;
 import com.zzd.domain.SystemUser;
+import com.zzd.enums.BusinessType;
 import com.zzd.result.ResponseResult;
 import com.zzd.service.SystemUserService;
 import io.swagger.annotations.Api;
@@ -21,6 +23,7 @@ public class LoginController {
     // 登录
     @ApiOperation("用户登录")
     @PostMapping("/login")
+    @Log(title = "用户登录", businessType = BusinessType.ASSGIN)
     public ResponseResult login(@RequestBody SystemUser systemUser) {
         return systemUserService.login(systemUser);
     }

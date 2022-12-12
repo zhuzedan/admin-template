@@ -37,3 +37,4 @@ build/
 /log/src/main/resources/rebel.xml
 /model/src/main/resources/rebel.xml
 /security/src/main/resources/rebel.xml
+/myLogLocation_IS_UNDEFINED/

@@ -14,6 +14,8 @@ import com.zzd.utils.JwtUtil;
 import com.zzd.utils.RedisCache;
 import com.zzd.vo.SystemRoleQueryVo;
 import com.zzd.vo.SystemUserQueryVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +43,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     AuthenticationManager authenticationManager;
     @Autowired
     RedisCache redisCache;
+    private Logger logger = LoggerFactory.getLogger(SystemUserServiceImpl.class);
     @Override
     public ResponseResult login(SystemUser systemUser) {
         //3使用ProviderManager auth方法进行验证
@@ -59,6 +62,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         map.put("tokenHead",TOKEN_PREFIX);
         //存入redis
         redisCache.setCacheObject("zzdlogin:"+userId,loginUser);
+        logger.info("successsuccess");
         return ResponseResult.success("登录成功",map);
     }
 

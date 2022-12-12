@@ -2,10 +2,10 @@ package com.zzd.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zzd.domain.SystemOperLog;
+import com.zzd.domain.SystemOperationLog;
 import com.zzd.result.ResponseResult;
-import com.zzd.service.SystemOperLogService;
-import com.zzd.vo.SystemOperLogQueryVo;
+import com.zzd.service.SystemOperationLogService;
+import com.zzd.vo.SystemOperationLogQueryVo;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,10 +22,10 @@ import java.util.List;
 @Api(tags = "操作日志管理")
 @RestController
 @RequestMapping("/admin/system/systemOperLog")
-public class SystemOperLogController {
+public class SystemOperationLogController {
 
     @Autowired
-    private SystemOperLogService systemOperLogService;
+    private SystemOperationLogService systemOperationLogService;
 
     @ApiOperation(value = "获取分页列表")
     @GetMapping("{page}/{limit}")
@@ -37,30 +37,30 @@ public class SystemOperLogController {
             @PathVariable Long limit,
 
             @ApiParam(name = "systemOperLogQueryVo", value = "查询对象", required = false)
-                    SystemOperLogQueryVo systemOperLogQueryVo) {
-        Page<SystemOperLog> pageParam = new Page<>(page, limit);
-        IPage<SystemOperLog> pageModel = systemOperLogService.selectPage(pageParam, systemOperLogQueryVo);
+                    SystemOperationLogQueryVo systemOperationLogQueryVo) {
+        Page<SystemOperationLog> pageParam = new Page<>(page, limit);
+        IPage<SystemOperationLog> pageModel = systemOperationLogService.selectPage(pageParam, systemOperationLogQueryVo);
         return new ResponseResult(200,"success",pageModel);
     }
 
     @ApiOperation(value = "查询所有记录")
     @GetMapping("/query")
     public ResponseResult findAll() {
-        List<SystemOperLog> list = systemOperLogService.list();
+        List<SystemOperationLog> list = systemOperationLogService.list();
         return new ResponseResult(200,"success",list);
     }
 
     @ApiOperation(value = "获取详情")
     @GetMapping("/read/{id}")
     public ResponseResult selectOne(@PathVariable Long id) {
-        SystemOperLog systemOperLog = systemOperLogService.getById(id);
-        return new  ResponseResult(200,"成功获取详情",systemOperLog);
+        SystemOperationLog systemOperationLog = systemOperationLogService.getById(id);
+        return new  ResponseResult(200,"成功获取详情", systemOperationLog);
     }
 
     @ApiOperation(value = "删除数据")
     @DeleteMapping("delete/{id}")
     public ResponseResult delete(@PathVariable Long id) {
-        boolean flag = systemOperLogService.removeById(id);
+        boolean flag = systemOperationLogService.removeById(id);
         if (flag) {
             return new ResponseResult(200,"删除成功");
         }
@@ -71,7 +71,7 @@ public class SystemOperLogController {
     @ApiOperation(value = "批量删除数据")
     @DeleteMapping("/batchRemove")
     public ResponseResult batchRemove(@RequestBody List<Long> idList) {
-        systemOperLogService.removeByIds(idList);
+        systemOperationLogService.removeByIds(idList);
         return new  ResponseResult(200,"批量删除成功");
     }
 }

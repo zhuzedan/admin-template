@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemLoginLog;
-import com.zzd.domain.SystemOperLog;
 import com.zzd.mapper.SystemLoginLogMapper;
 import com.zzd.service.SystemLoginLogService;
 import com.zzd.vo.SystemLoginLogQueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
 import org.springframework.stereotype.Service;
 
 /**

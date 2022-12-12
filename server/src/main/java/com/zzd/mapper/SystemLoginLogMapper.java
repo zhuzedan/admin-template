@@ -4,12 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.domain.SystemLoginLog;
-import com.zzd.domain.SystemOperLog;
 import com.zzd.vo.SystemLoginLogQueryVo;
-import com.zzd.vo.SystemOperLogQueryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
 

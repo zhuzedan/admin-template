@@ -3,81 +3,104 @@ package com.zzd.aspect;
 import com.alibaba.fastjson.JSON;
 
 import com.zzd.annotation.Log;
-import com.zzd.domain.SystemOperLog;
-import com.zzd.service.SystemOperLogService;
+import com.zzd.domain.SystemOperationLog;
+import com.zzd.service.SystemOperationLogService;
+import com.zzd.utils.HttpContextUtils;
 import com.zzd.utils.IpUtil;
-import com.zzd.utils.JwtHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
 
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
 
     @Autowired
-    private SystemOperLogService operLogService;
+    private SystemOperationLogService systemOperationLogService;
+    //切点
+    @Pointcut("@annotation(com.zzd.annotation.Log)")
+    public void logAspect() {
 
-    @AfterReturning(pointcut = "@annotation(controllerLog)", returning = "jsonResult")
-    public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult) {
-        handleLog(joinPoint, controllerLog, null, jsonResult);
+    }
+    //定义通知类，标识切点，环绕通知
+    @Around("logAspect()")
+    public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
+        long beginTime = System.currentTimeMillis();
+        //执行方法
+        Object result = joinPoint.proceed();
+        //执行时长
+        long time = System.currentTimeMillis() - beginTime;
+        //保存日志
+        recordLog(joinPoint,time);
+        return result;
+
     }
 
-    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
-        try {
-            RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-            ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-            HttpServletRequest request = sra.getRequest();
+    private void recordLog(ProceedingJoinPoint joinPoint, long time) throws Exception {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        // 获取request 设置ip地址
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+        //请求方法名
+        String className = joinPoint.getTarget().getClass().getName();
+        String methodName = methodSignature.getName();
+        // 请求参数
+        Object[] args = joinPoint.getArgs();
+        String params = JSON.toJSONString(args[0]);
+        Log logAnnotation = method.getAnnotation(Log.class);
+        log.info("===============================请求开始=============================");
+        log.info("[请求标题]:{}",logAnnotation.title());
+        log.info("[业务类型]:{}",logAnnotation.businessType());
+        log.info("[地址]:{}",IpUtil.getIpAddress(request));
+        log.info("[请求类名]:{},[请求方法名]:{}",className,methodName);
+        log.info(params);
+        log.info(String.valueOf(time));
+        // 将操作日志记录到数据库
+        SystemOperationLog systemOperationLog = new SystemOperationLog();
+        systemOperationLog.setTitle(logAnnotation.title());  //标题
+        systemOperationLog.setBusinessType(String.valueOf(logAnnotation.businessType()));   //业务类型
+        systemOperationLog.setOperationIp(IpUtil.getIpAddress(request));     //地址
+        systemOperationLog.setOperationUrl(request.getRequestURI());         //url
+        systemOperationLog.setStatus(1);                                     //状态
+        systemOperationLog.setMethod(className + "." + methodName + "()");   //方法名
+        systemOperationLog.setRequestMethod(request.getMethod());            // 设置请求方式
+        systemOperationLog.setOperationTime(time+ "ms");                     //操作时长
+        systemOperationLog.setOperationParam(params);
+        // 是否需要保存request，参数和值
+        // if (logAnnotation.isSaveRequestData()) {
+        //     // 获取参数的信息，传入到数据库中。
+        //     setRequestValue(joinPoint, systemOperationLog);
+        // }
+        systemOperationLogService.saveSysLog(systemOperationLog);
 
-            // *========数据库日志=========*//
-            SystemOperLog operLog = new SystemOperLog();
-            //状态
-            operLog.setStatus(1);
+    }
 
-            // 请求的地址
-            String ip = IpUtil.getIpAddress(request);//IpUtil.getIpAddr(ServletUtils.getRequest());
-            operLog.setOperIp(ip);
-            operLog.setOperUrl(request.getRequestURI());
-
-            String token = request.getHeader("token");
-            String userName = JwtHelper.getUsername(token);
-            operLog.setOperName(userName);
-
-            if (e != null) {
-                operLog.setStatus(0);
-                operLog.setErrorMsg(e.getMessage());
-            }
-
-            // 设置方法名称
-            String className = joinPoint.getTarget().getClass().getName();
-            String methodName = joinPoint.getSignature().getName();
-            operLog.setMethod(className + "." + methodName + "()");
-
-            // 设置请求方式
-            operLog.setRequestMethod(request.getMethod());
-
-            // 处理设置注解上的参数
-            getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
-
-            // 操作日志保存数据库
-            operLogService.saveSysLog(operLog);
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
+    @AfterReturning(returning = "ret", pointcut = "logAspect()")
+    public void doAfterReturning(Object ret) throws Throwable {
+        // 处理完请求，返回内容
+        log.info("===============================返回内容=============================");
+        log.info("RESPONSE:{}",JSON.toJSONString(ret));
+        log.info("===============================请求结束=============================");
+        SystemOperationLog systemOperationLog = new SystemOperationLog();
+        systemOperationLog.setJsonResult(JSON.toJSONString(ret));
     }
 
     /**
@@ -87,7 +110,7 @@ public class LogAspect {
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SystemOperLog operLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SystemOperationLog operLog, Object jsonResult) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().name());
         // 设置标题
@@ -108,14 +131,14 @@ public class LogAspect {
     /**
      * 获取请求的参数，放到log中
      *
-     * @param operLog 操作日志
+     * @param systemOperationLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, SystemOperLog operLog) throws Exception {
-        String requestMethod = operLog.getRequestMethod();
+    private void setRequestValue(JoinPoint joinPoint, SystemOperationLog systemOperationLog) throws Exception {
+        String requestMethod = systemOperationLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
-            operLog.setOperParam(params);
+            systemOperationLog.setOperationParam(params);
         }
     }
 

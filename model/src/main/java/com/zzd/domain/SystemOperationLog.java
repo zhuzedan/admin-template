@@ -2,8 +2,6 @@ package com.zzd.domain;
 
 import java.util.Date;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +18,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("t_system_oper_log")
-public class SystemOperLog  {
+@TableName("t_system_operation_log")
+public class SystemOperationLog {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
@@ -36,15 +34,15 @@ public class SystemOperLog  {
     //操作类别（0其它 1后台用户 2手机端用户）
     private String operatorType;
     //操作人员
-    private String operName;
+    private String operationName;
     //部门名称
     private String deptName;
     //请求URL
-    private String operUrl;
+    private String operationUrl;
     //主机地址
-    private String operIp;
+    private String operationIp;
     //请求参数
-    private String operParam;
+    private String operationParam;
     //返回参数
     private String jsonResult;
     //操作状态（0正常 1异常）
@@ -52,10 +50,10 @@ public class SystemOperLog  {
     //错误消息
     private String errorMsg;
     //操作时间
-    private Date operTime;
-    
+    private String operationTime;
+
     private Date createTime;
-    
+
     private Date updateTime;
     //删除标记（0:可用 1:已删除）
     private Integer isDeleted;

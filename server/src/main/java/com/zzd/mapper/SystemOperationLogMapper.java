@@ -3,8 +3,8 @@ package com.zzd.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zzd.domain.SystemOperLog;
-import com.zzd.vo.SystemOperLogQueryVo;
+import com.zzd.domain.SystemOperationLog;
+import com.zzd.vo.SystemOperationLogQueryVo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -13,8 +13,8 @@ import org.apache.ibatis.annotations.Param;
  * @author zzd
  * @since 2022-11-28 13:09:27
  */
-public interface SystemOperLogMapper extends BaseMapper<SystemOperLog> {
+public interface SystemOperationLogMapper extends BaseMapper<SystemOperationLog> {
 
-    IPage<SystemOperLog> selectPage(Page<SystemOperLog> page, @Param("vo") SystemOperLogQueryVo sysOperLogQueryVo);
+    IPage<SystemOperationLog> selectPage(Page<SystemOperationLog> page, @Param("vo") SystemOperationLogQueryVo sysOperLogQueryVo);
 }
 
