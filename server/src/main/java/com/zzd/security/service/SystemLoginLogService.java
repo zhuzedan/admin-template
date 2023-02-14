@@ -1,4 +1,4 @@
-package com.zzd.service;
+package com.zzd.security.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -3,18 +3,15 @@ package com.zzd.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zzd.domain.SystemRole;
 import com.zzd.domain.SystemUser;
-import com.zzd.dto.LoginUser;
 import com.zzd.exception.ResponseException;
-import com.zzd.mapper.SystemRoleMapper;
 import com.zzd.mapper.SystemUserMapper;
 import com.zzd.result.ResponseResult;
 import com.zzd.result.ResultCodeEnum;
+import com.zzd.security.dto.LoginUser;
 import com.zzd.service.SystemUserService;
 import com.zzd.utils.JwtUtil;
 import com.zzd.utils.RedisCache;
-import com.zzd.vo.SystemRoleQueryVo;
 import com.zzd.vo.SystemUserQueryVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.zzd.constants.SecurityConstants.TOKEN_PREFIX;
+import static com.zzd.security.constants.SecurityConstants.TOKEN_PREFIX;
 
 /**
  * 用户表(SystemUser)表服务实现类
@@ -50,7 +47,8 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     public ResponseResult login(SystemUser systemUser) {
         //3使用ProviderManager auth方法进行验证
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(systemUser.getUsername(),systemUser.getPassword());
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        // Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        org.springframework.security.core.Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //校验失败了
         if(Objects.isNull(authenticate)){
             throw new ResponseException(ResultCodeEnum.LOGIN_ERROR.getCode(), ResultCodeEnum.LOGIN_ERROR.getMessage());
@@ -70,7 +68,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public ResponseResult getInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         SystemUser systemUser = loginUser.getSystemUser();
         systemUser.setPassword(null);

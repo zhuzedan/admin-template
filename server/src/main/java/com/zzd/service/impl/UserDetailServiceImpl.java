@@ -2,8 +2,8 @@ package com.zzd.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzd.domain.SystemUser;
-import com.zzd.dto.LoginUser;
 import com.zzd.mapper.SystemUserMapper;
+import com.zzd.security.dto.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

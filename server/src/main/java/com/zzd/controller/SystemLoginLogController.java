@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.domain.SystemLoginLog;
 import com.zzd.result.ResponseResult;
-import com.zzd.service.SystemLoginLogService;
+import com.zzd.security.service.SystemLoginLogService;
 import com.zzd.vo.SystemLoginLogQueryVo;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;

@@ -1,7 +1,7 @@
-package com.zzd.listener;
+package com.zzd.security.listener;
 
 import com.zzd.domain.SystemLoginLog;
-import com.zzd.service.SystemLoginLogService;
+import com.zzd.security.service.SystemLoginLogService;
 import com.zzd.utils.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 /**
  * 用户登录失败监听器事件

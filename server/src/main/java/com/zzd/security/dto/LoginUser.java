@@ -1,4 +1,4 @@
-package com.zzd.dto;
+package com.zzd.security.dto;
 
 import com.zzd.domain.SystemUser;
 import lombok.AllArgsConstructor;

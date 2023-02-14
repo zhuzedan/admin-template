@@ -1,9 +1,8 @@
-package com.zzd.filter;
+package com.zzd.security.filter;
 
-import com.zzd.constants.SecurityConstants;
-import com.zzd.dto.LoginUser;
 import com.zzd.exception.ResponseException;
-import com.zzd.result.ResultCodeEnum;
+import com.zzd.security.constants.SecurityConstants;
+import com.zzd.security.dto.LoginUser;
 import com.zzd.utils.JwtUtil;
 import com.zzd.utils.RedisCache;
 import io.jsonwebtoken.Claims;
@@ -20,9 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
-
-import static com.zzd.constants.SecurityConstants.HEADER_STRING;
-import static com.zzd.constants.SecurityConstants.TOKEN_PREFIX;
 
 /**
  * @author :zzd

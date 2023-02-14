@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemLoginLog;
 import com.zzd.mapper.SystemLoginLogMapper;
-import com.zzd.service.SystemLoginLogService;
+import com.zzd.security.service.SystemLoginLogService;
 import com.zzd.vo.SystemLoginLogQueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
