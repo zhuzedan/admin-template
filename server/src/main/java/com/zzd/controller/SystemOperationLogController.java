@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Api(tags = "操作日志管理")
 @RestController
-@RequestMapping("/admin/system/systemOperLog")
+@RequestMapping("/api/systemOperLog")
 public class SystemOperationLogController {
 
     @Autowired

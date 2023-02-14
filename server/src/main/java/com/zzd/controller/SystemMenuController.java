@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Api(tags = "菜单列表")
 @RestController
-@RequestMapping("/admin/system/systemMenu")
+@RequestMapping("/api/systemMenu")
 public class SystemMenuController {
 
     @Autowired

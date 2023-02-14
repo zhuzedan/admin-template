@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Api(tags = "登录日志管理")
 @RestController
-@RequestMapping("/admin/system/systemLoginLog")
+@RequestMapping("/api/systemLoginLog")
 public class SystemLoginLogController {
 
     @Autowired

@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 // 对于登录接口 允许匿名访问
-                .antMatchers("/admin/system/user/login").anonymous()
+                .antMatchers("/api/user/login").anonymous()
                 //配置swagger
                 .antMatchers(AUTH_WHITELIST).anonymous()
                 // 除上面外的所有请求全部需要鉴权认证

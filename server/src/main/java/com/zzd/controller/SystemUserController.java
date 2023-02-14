@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Api(tags = "用户管理接口")
 @RestController
-@RequestMapping("/admin/system/systemUser")
+@RequestMapping("/api/systemUser")
 public class SystemUserController {
     @Autowired
     SystemUserService systemUserService;

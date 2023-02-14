@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalException {
     /**
      * 全局异常处理
      * @param e
@@ -29,9 +29,9 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(BusinessException.class)
+    @ExceptionHandler(ResponseException.class)
     @ResponseBody
-    public ResponseResult error(BusinessException e){
+    public ResponseResult error(ResponseException e){
         e.printStackTrace();
         return ResponseResult.error(e.getCode(),e.getMessage());
     }

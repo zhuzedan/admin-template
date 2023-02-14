@@ -6,7 +6,7 @@ package com.zzd.result;
  */
 public enum ResultCodeEnum implements CustomizeResultCode{
     SUCCESS(200,"操作成功"),
-    FAIL(201, "失败"),
+    FAIL(201, "操作失败"),
     SERVICE_ERROR(2012, "服务异常"),
     DATA_ERROR(204, "数据异常"),
     ILLEGAL_REQUEST(205, "非法请求"),
@@ -17,7 +17,7 @@ public enum ResultCodeEnum implements CustomizeResultCode{
     PERMISSION(209, "没有权限"),
     ACCOUNT_ERROR(214, "账号不正确"),
     PASSWORD_ERROR(215, "密码不正确"),
-    LOGIN_MOBLE_ERROR( 216, "账号不正确"),
+    LOGIN_ERROR( 216, "账号/密码不正确"),
     ACCOUNT_STOP( 217, "账号已停用"),
     NODE_ERROR( 218, "该节点下有子节点，不可以删除"),
     /* 默认失败 */
@@ -39,10 +39,6 @@ public enum ResultCodeEnum implements CustomizeResultCode{
     USER_ACCOUNT_NOT_EXIST(2007, "账号不存在"),
     USER_ACCOUNT_ALREADY_EXIST(2008, "账号已存在"),
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
-
-    /*部门错误*/
-    DEPARTMENT_NOT_EXIST(3007, "部门不存在"),
-    DEPARTMENT_ALREADY_EXIST(3008, "部门已存在"),
 
     /* 业务错误 */
     NO_PERMISSION(3001, "没有权限"),

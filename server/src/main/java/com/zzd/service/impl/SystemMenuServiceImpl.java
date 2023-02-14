@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemMenu;
 import com.zzd.domain.SystemRoleMenu;
-import com.zzd.exception.BusinessException;
+import com.zzd.exception.ResponseException;
 import com.zzd.mapper.SystemMenuMapper;
 import com.zzd.mapper.SystemRoleMenuMapper;
 import com.zzd.result.ResponseResult;
@@ -50,7 +50,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         wrapper.eq("parent_id",id);
         Long count = baseMapper.selectCount(wrapper);
         if (count > 0) {
-            throw new BusinessException(ResultCodeEnum.ILLEGAL_REQUEST.getCode(), ResultCodeEnum.ILLEGAL_REQUEST.getMessage());
+            throw new ResponseException(ResultCodeEnum.ILLEGAL_REQUEST.getCode(), ResultCodeEnum.ILLEGAL_REQUEST.getMessage());
         }
         systemMenuMapper.deleteById(id);
     }

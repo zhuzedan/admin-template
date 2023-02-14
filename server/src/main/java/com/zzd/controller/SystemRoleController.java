@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzd.annotation.Log;
 import com.zzd.domain.SystemRole;
 import com.zzd.enums.BusinessType;
-import com.zzd.exception.BusinessException;
+import com.zzd.exception.ResponseException;
 import com.zzd.result.ResponseResult;
 import com.zzd.result.ResultCodeEnum;
 import com.zzd.service.SystemRoleService;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -29,7 +28,7 @@ import java.util.Map;
  */
 @Api(tags = "角色管理接口")
 @RestController
-@RequestMapping("/admin/system/systemRole")
+@RequestMapping("/api/systemRole")
 public class SystemRoleController {
     @Autowired
     private SystemRoleService systemRoleService;
@@ -88,7 +87,7 @@ public class SystemRoleController {
             return ResponseResult.success(role);
         }
         else {
-            throw new BusinessException(ResultCodeEnum.PARAM_NOT_VALID.getCode(),ResultCodeEnum.PARAM_NOT_VALID.getMessage());
+            throw new ResponseException(ResultCodeEnum.PARAM_NOT_VALID.getCode(),ResultCodeEnum.PARAM_NOT_VALID.getMessage());
         }
     }
     @Log(title = "角色管理",businessType = BusinessType.UPDATE)

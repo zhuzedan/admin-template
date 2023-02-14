@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "用户登录接口")
 @RestController
-@RequestMapping("/admin/system/user")
+@RequestMapping("/api/user")
 public class LoginController {
     @Autowired
     SystemUserService systemUserService;

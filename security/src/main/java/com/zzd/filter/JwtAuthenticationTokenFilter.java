@@ -1,6 +1,9 @@
 package com.zzd.filter;
 
+import com.zzd.constants.SecurityConstants;
 import com.zzd.dto.LoginUser;
+import com.zzd.exception.ResponseException;
+import com.zzd.result.ResultCodeEnum;
 import com.zzd.utils.JwtUtil;
 import com.zzd.utils.RedisCache;
 import io.jsonwebtoken.Claims;
@@ -35,8 +38,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //1获取token  header的token
-        String token = resolveToken(request);
-        if (!StringUtils.hasText(token)) {
+        String token = null;
+        String bearerToken = request.getHeader(SecurityConstants.HEADER_STRING);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+            token =  bearerToken.replace(SecurityConstants.TOKEN_PREFIX,"");
+        }
+        if (!StringUtils.hasText(bearerToken)) {
             //放行，让后面的过滤器执行
             filterChain.doFilter(request, response);
             return;
@@ -47,7 +54,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
         } catch (Exception e) {
-            throw new RuntimeException("token不合法！");
+            throw new ResponseException(300, "token不合法");
         }
 
         //3获取userId, redis获取用户信息
@@ -65,18 +72,5 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         //放行，让后面的过滤器执行
         filterChain.doFilter(request, response);
-    }
-
-    /**
-     * 初步检测token
-     */
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(HEADER_STRING);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
-            return bearerToken.replace(TOKEN_PREFIX,"");
-        }else {
-            System.out.println("token不合法"+bearerToken);
-        }
-        return null;
     }
 }

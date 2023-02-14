@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzd.domain.SystemRole;
 import com.zzd.domain.SystemUser;
 import com.zzd.dto.LoginUser;
+import com.zzd.exception.ResponseException;
 import com.zzd.mapper.SystemRoleMapper;
 import com.zzd.mapper.SystemUserMapper;
 import com.zzd.result.ResponseResult;
+import com.zzd.result.ResultCodeEnum;
 import com.zzd.service.SystemUserService;
 import com.zzd.utils.JwtUtil;
 import com.zzd.utils.RedisCache;
@@ -51,7 +53,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //校验失败了
         if(Objects.isNull(authenticate)){
-            throw new RuntimeException("用户名或密码错误！");
+            throw new ResponseException(ResultCodeEnum.LOGIN_ERROR.getCode(), ResultCodeEnum.LOGIN_ERROR.getMessage());
         }
         //生成自己jwt给前端
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
